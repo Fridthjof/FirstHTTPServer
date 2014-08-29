@@ -1,5 +1,6 @@
 package firsthttpserver;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -37,18 +38,15 @@ public class FirstHtttpServer {
         sb.append("<meta charset='UTF-8'>\n");
         sb.append("</head>\n");
         sb.append("<body>\n");
-        sb.append("<h2>Welcome to my very first home Web Server :-) </h2>\n");
+        sb.append("<h1>Welcome to my very first home Web Server :-) </h1>\n");
         sb.append("</body>\n");
         sb.append("</html>");
         String response = sb.toString();
       //String response = "Welcome to my very first almost home made Web Server :-)";
       
       he.sendResponseHeaders(200, response.length());
-      try (PrintWriter pw = new PrintWriter(he.getResponseBody())) 
-      {
-        pw.print(response); //What happens if we use a println instead of print --> Explain
-      }
-      he.sendResponseHeaders(200, response.length());
+      Headers h = he.getResponseHeaders();
+      h.add("Content-type", "text/html");
       try (PrintWriter pw = new PrintWriter(he.getResponseBody())) {
         pw.print(response); //What happens if we use a println instead of print --> Explain
       }
